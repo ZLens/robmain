@@ -1696,7 +1696,8 @@ local function headtag(plr)
 		contributors = {
 			"ikDebris",
 			"NitroNukexYT",
-			"restaxts"
+			"restaxts",
+			"Khine2011"
 		},
 		customTags = {
 			--{"lvasion", Color3.new(1, 0.666667, 1), "Head Developer"},

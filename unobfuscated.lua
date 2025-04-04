@@ -1691,13 +1691,12 @@ local function headtag(plr)
 			"BOL012307",
 		},
 		staff = {
-
+			"Khine2011"
 		},
 		contributors = {
 			"ikDebris",
 			"NitroNukexYT",
-			"restaxts",
-			"Khine2011"
+			"restaxts"
 		},
 		customTags = {
 			--{"lvasion", Color3.new(1, 0.666667, 1), "Head Developer"},

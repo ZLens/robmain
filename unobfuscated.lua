@@ -1685,10 +1685,11 @@ local function headtag(plr)
 	local permissions = {
 		owners = {
 			"lvasion",
-			"pandaphoebe6760"
+			"pandaphoebe6760",
+			"BOL012307"
 		},
 		developers = {
-			"BOL012307",
+			
 		},
 		staff = {
 			"Khine2011",

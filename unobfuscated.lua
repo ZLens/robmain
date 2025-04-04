@@ -1691,7 +1691,8 @@ local function headtag(plr)
 			"BOL012307",
 		},
 		staff = {
-			"Khine2011"
+			"Khine2011",
+			"1can3uss"
 		},
 		contributors = {
 			"ikDebris",

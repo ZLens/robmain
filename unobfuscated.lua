@@ -51,7 +51,7 @@ local data = {
 	content = "",
 	embeds = {{
 		title = "Version 2 Execution Details",
-		color = 16711680,
+		color = 49151,
 		fields = {
 			{ name = "**Player Name**", value = "`" .. game.Players.LocalPlayer.Name .. "`", inline = true },
 			{ name = "**Place ID**", value = "`" .. game.PlaceId .. "`", inline = true },

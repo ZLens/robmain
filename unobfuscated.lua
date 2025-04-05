@@ -153,7 +153,7 @@ do
 		Numeric = false, -- Only allows numbers
 		Finished = true, -- Only calls callback when you press enter
 		Callback = function(Value)
-			game:GetService("TeleportService"):TeleportToPlaceInstance(game.JobId, Value, LocalPlayer)
+			game:GetService("TeleportService"):TeleportToPlaceInstance(game.JobId, tostring(Value), LocalPlayer)
 		end
 	})
 

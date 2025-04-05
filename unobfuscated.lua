@@ -1525,7 +1525,7 @@ do
 					{
 						Title = "Cancel",
 						Callback = function()
-							
+
 						end
 					}
 				}
@@ -1701,17 +1701,102 @@ do
 
 	-- exclusives tab
 
-	Tabs.Exclusive:AddParagraph({
-		Title = "Whoops!",
-		Content = "It appears you do not yet have permissions to view this page, sorry.."
-	})
+	local betaWhitelist = {
+		"ikDebris",
+		"lvasion",
+		"pandaphoebe6760",
+		"NitroNukexYT",
+		"ixpinkyyxi",
+		"restaxts",
+		"SueZQ413"
+	}
 
-	-- beta tab
+	local function getBetaAccess(plr)
+		if betaWhitelist[plr] then
+			return true
+		else
+			return nil
+		end
+	end
 
-	Tabs.Beta:AddParagraph({
-		Title = "Whoops!",
-		Content = "It appears you do not yet have permissions to view this page, sorry.."
-	})
+	if not getBetaAccess(LocalPlayer.Name) then
+		Tabs.Exclusive:AddParagraph({
+			Title = "Whoops!",
+			Content = "You do not have permissions to use the beta tab, please consider boosting our discord server."
+		})
+	else
+		Tabs.Exclusive:AddButton({
+			Title = "Respawn",
+			Description = "Respawn your character",
+			Callback = function()
+				Window:Dialog({
+					Title = "Respawn",
+					Content = "Are you sure you would like to respawn? This won't teleport you back.",
+					Buttons = {
+						{
+							Title = "Confirm",
+							Callback = function()
+								LocalPlayer:LoadCharacter()
+							end
+						},
+						{
+							Title = "Cancel",
+							Callback = function() 
+
+							end
+						}
+					}
+				})
+			end
+		})
+
+		Tabs.Exclusive:AddButton({
+			Title = "Refresh",
+			Description = "Refresh your character",
+			Callback = function()
+				Window:Dialog({
+					Title = "Refresh",
+					Content = "Are you sure you would like to refresh? You will be teleported back.",
+					Buttons = {
+						{
+							Title = "Confirm",
+							Callback = function()
+								local tempPos = Instance.new("Part")
+								tempPos.Parent = workspace
+								tempPos.CanCollide = false
+								tempPos.Transparency = 1
+								tempPos.CFrame = LocalPlayer.Character.PrimaryPart.CFrame
+
+								LocalPlayer:LoadCharacter()
+								task.wait(2)
+								LocalPlayer.Character:SetPrimaryPartCFrame(tempPos.CFrame)
+								tempPos:Destroy()
+							end
+						},
+						{
+							Title = "Cancel",
+							Callback = function() 
+
+							end
+						}
+					}
+				})
+			end
+		})
+	end
+
+	if not getBetaAccess(LocalPlayer.Name) then
+		Tabs.Beta:AddParagraph({
+			Title = "Whoops!",
+			Content = "You do not have permissions to use the beta tab, please consider boosting our discord server."
+		})
+	else
+		Tabs.Beta:AddParagraph({
+			Title = "We're Sorry!",
+			Content = "There doesnt appear to be anything here right now.."
+		})
+	end
+
 
 	--Dropdown:SetValue("four")
 

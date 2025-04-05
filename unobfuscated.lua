@@ -2307,14 +2307,14 @@ local function onPlayerAdded(player)
 					local gui = head:WaitForChild("kiExe_OH")
 
 					if gui then
-						if findList(permissions.owners, plr.Name) then
-							OwnerTag.Visible = true
-						elseif findList(permissions.developers, plr.Name) then
-							DeveloperTag.Visible = true
-						elseif findList(permissions.staff, plr.Name) then
-							StaffTag.Visible = true
-						elseif findList(permissions.coowner, plr.Name) then
-							CoOwnerTag.Visible = true
+						if findList(permissions.owners, player.Name) then
+							gui.OwnerTag.Visible = true
+						elseif findList(permissions.developers, player.Name) then
+							gui.DeveloperTag.Visible = true
+						elseif findList(permissions.staff, player.Name) then
+							gui.StaffTag.Visible = true
+						elseif findList(permissions.coowner, player.Name) then
+							gui.CoOwnerTag.Visible = true
 						else
 							gui.UserTag.Visible = true
 						end

@@ -2113,7 +2113,7 @@ local function headtag(plr)
 	Name1.TextStrokeColor3 = tagColor
 	Name1.TextWrapped = true
 
-	UICorner.CornerRadius = UDim.new(0.200000003, 0)
+	UICorner.CornerRadius = UDim.new(0.3, 0)
 	UICorner.Parent = Name1
 
 	UIPadding.Parent = Name1
@@ -2121,7 +2121,7 @@ local function headtag(plr)
 	UIPadding.PaddingTop = UDim.new(0.150000006, 0)
 
 	UIStroke.Parent = Name1
-	UIStroke.Thickness = 1
+	UIStroke.Thickness = 2
 	UIStroke.Color = tagColor
 	UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 end
@@ -2132,6 +2132,7 @@ local function createUserHeadtag(player)
 	local char = player.Character or player.CharacterAdded:Wait()
 
 	if char then
+		task.wait(5)
 		local head = char:FindFirstChild("Head")
 
 		if head and not head:FindFirstChild("kiExe_OH") then
@@ -2176,7 +2177,7 @@ local function createUserHeadtag(player)
 			Name1.TextStrokeColor3 = Color3.fromRGB(85, 255, 127)
 			Name1.TextWrapped = true
 
-			UICorner.CornerRadius = UDim.new(0.2, 0)
+			UICorner.CornerRadius = UDim.new(0.3, 0)
 			UICorner.Parent = Name1
 
 			UIPadding.Parent = Name1
@@ -2184,7 +2185,7 @@ local function createUserHeadtag(player)
 			UIPadding.PaddingTop = UDim.new(0.15, 0)
 
 			UIStroke.Parent = Name1
-			UIStroke.Thickness = 1
+			UIStroke.Thickness = 2
 			UIStroke.Color = Color3.fromRGB(85, 255, 127)
 			UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 		end

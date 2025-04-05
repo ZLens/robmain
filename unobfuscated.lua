@@ -89,20 +89,23 @@ local clientConfig = {
 }
 
 local uis = game:GetService("UserInputService")
+local sStoreSize = UDim2.fromOffset(0, 0)
+
+if uis.TouchEnabled then
+	sStoreSize = UDim2.fromOffset(380, 260)
+else
+	sStoreSize = UDim2.fromOffset(580, 460)
+end
 
 local Window = Fluent:CreateWindow({
 	Title = "kiExe v9" --[[.. Fluent.Version]],
 	SubTitle = "by lvasion",
 	TabWidth = 160,
-	Size = UDim2.fromOffset(580, 460),
+	Size = sStoreSize,
 	Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
 	Theme = "Dark",
 	MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
 })
-
-if uis.TouchEnabled then
-	Window.Size = UDim2.fromOffset(380, 260)
-end
 
 --Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
 local Tabs = {

@@ -577,6 +577,31 @@ do
 	})
 
 	Tabs.Universals:AddButton({
+		Title = "AK Admin",
+		Description = "Execute AK Admin",
+		Callback = function()
+			Window:Dialog({
+				Title = "Execution",
+				Content = "Would you like to inject ak admin?",
+				Buttons = {
+					{
+						Title = "Confirm",
+						Callback = function()
+							loadstring(game:HttpGet("https://raw.githubusercontent.com/LOLkeeptrying/AKADMIN/main/Congratslol"))()
+						end
+					},
+					{
+						Title = "Cancel",
+						Callback = function() 
+
+						end
+					}
+				}
+			})
+		end
+	})
+
+	Tabs.Universals:AddButton({
 		Title = "System Broken",
 		Description = "Execute System Broken",
 		Callback = function()

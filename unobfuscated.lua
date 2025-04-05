@@ -1725,7 +1725,8 @@ do
 		"SueZQ413",
 		"nine2044",
 		"Bad_OmenOriginal",
-		"ImNotAPancake565"
+		"ImNotAPancake565",
+		"Khine2011"
 	}
 
 	local function getBetaAccess(plr)

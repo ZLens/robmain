@@ -1710,7 +1710,8 @@ do
 		"NitroNukexYT",
 		"ixpinkyyxi",
 		"restaxts",
-		"SueZQ413"
+		"SueZQ413",
+		"nine2044"
 	}
 
 	local function getBetaAccess(plr)

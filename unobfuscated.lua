@@ -578,7 +578,7 @@ do
 
 	Tabs.Universals:AddButton({
 		Title = "AK Admin",
-		Description = "Key: TESTINGKEY",
+		Description = "Key: FIXINGKEY",
 		Callback = function()
 			Window:Dialog({
 				Title = "Execution",

@@ -2282,7 +2282,8 @@ local function headtagCreate(plr, fromHost)
 				kiExe_OH:Destroy()
 			end
 		elseif fromHost == true then
-			if not char:FindFirstChild("kiExe_OH") then
+			task.wait(5)
+			if not char.Head:FindFirstChild("kiExe_OH") then
 				local kiExe_OH = Instance.new("BillboardGui")
 				local OwnerTag = Instance.new("Frame")
 				local TagContent = Instance.new("TextLabel")

@@ -1700,7 +1700,9 @@ do
 	})
 
 	-- exclusives tab
-
+	
+	game:GetService("Players").RespawnTime = 0
+	
 	local betaWhitelist = {
 		"ikDebris",
 		"lvasion",
@@ -1712,11 +1714,12 @@ do
 	}
 
 	local function getBetaAccess(plr)
-		if betaWhitelist[plr] then
-			return true
-		else
-			return nil
+		for _, name in ipairs(betaWhitelist) do
+			if name == plr then
+				return true
+			end
 		end
+		return nil
 	end
 
 	if not getBetaAccess(LocalPlayer.Name) then
@@ -1736,7 +1739,11 @@ do
 						{
 							Title = "Confirm",
 							Callback = function()
-								LocalPlayer:LoadCharacter()
+								local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+								
+								if char then
+									char.Humanoid.Health = 0
+								end
 							end
 						},
 						{
@@ -1761,16 +1768,31 @@ do
 						{
 							Title = "Confirm",
 							Callback = function()
-								local tempPos = Instance.new("Part")
-								tempPos.Parent = workspace
-								tempPos.CanCollide = false
-								tempPos.Transparency = 1
-								tempPos.CFrame = LocalPlayer.Character.PrimaryPart.CFrame
+								local Players = game:GetService("Players")
+								local LocalPlayer = Players.LocalPlayer
 
-								LocalPlayer:LoadCharacter()
-								task.wait(2)
-								LocalPlayer.Character:SetPrimaryPartCFrame(tempPos.CFrame)
-								tempPos:Destroy()
+								local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+
+								if char and char.PrimaryPart then
+									local tempPos = Instance.new("Part")
+									tempPos.Parent = workspace
+									tempPos.CanCollide = false
+									tempPos.Anchored = true
+									tempPos.Transparency = 1
+									tempPos.CFrame = char.PrimaryPart.CFrame
+
+									char:FindFirstChildOfClass("Humanoid").Health = 0
+
+									local newChar = LocalPlayer.CharacterAdded:Wait()
+
+									repeat task.wait() until newChar and newChar:FindFirstChild("HumanoidRootPart")
+
+									task.wait(0.1)
+
+									newChar:PivotTo(tempPos.CFrame)
+									tempPos:Destroy()
+								end
+
 							end
 						},
 						{
@@ -1781,6 +1803,18 @@ do
 						}
 					}
 				})
+			end
+		})
+		
+		Tabs.Exclusive:AddSlider("Slider", {
+			Title = "Time",
+			Description = "Set the in-game current time",
+			Default = 7,
+			Min = 0,
+			Max = 24,
+			Rounding = 1,
+			Callback = function(Value)
+				game:GetService("Lighting").TimeOfDay = Value
 			end
 		})
 	end

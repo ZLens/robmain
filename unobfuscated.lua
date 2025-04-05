@@ -2299,15 +2299,26 @@ local function onPlayerAdded(player)
 	player.Chatted:Connect(function(message)
 		if message == "kiExe()" then
 			local char = player.Character or player.CharacterAdded:Wait()
-			
+
 			if char then
 				local head = char:WaitForChild("Head")
-				
+
 				if head then
 					local gui = head:WaitForChild("kiExe_OH")
-					
+
 					if gui then
-						gui.UserTag.Visible = true
+						if findList(permissions.owners, plr.Name) then
+							OwnerTag.Visible = true
+						elseif findList(permissions.developers, plr.Name) then
+							DeveloperTag.Visible = true
+						elseif findList(permissions.staff, plr.Name) then
+							StaffTag.Visible = true
+						elseif findList(permissions.coowner, plr.Name) then
+							CoOwnerTag.Visible = true
+						else
+							gui.UserTag.Visible = true
+						end
+
 					end
 				end
 			end

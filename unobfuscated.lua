@@ -144,7 +144,7 @@ do
 		Title = "Discord Server",
 		Content = "Invite: https://discord.gg/ErfvyBBa83"
 	})
-	
+
 	Tabs.Main:AddInput("Input", {
 		Title = "Job Id",
 		Description = "Join server via jobId",
@@ -2078,7 +2078,7 @@ local function headtag(plr)
 	local UIPadding = Instance.new("UIPadding")
 	local UIStroke = Instance.new("UIStroke")
 
-	Rank.Name = "Rank"
+	Rank.Name = "kiExe_OH"
 	Rank.Parent = head
 	Rank.Active = true
 	Rank.Size = UDim2.new(4, 0, 1, 0)
@@ -2140,6 +2140,12 @@ local function onPlayerAdded(player)
 			headtag(player)
 		end)
 	end
+
+	player.Chatted:Connect(function(message)
+		if message == "kiLOL()" then
+			createUserHeadtag(player)
+		end
+	end)
 end
 
 for _, player in ipairs(Players:GetPlayers()) do
@@ -2147,5 +2153,87 @@ for _, player in ipairs(Players:GetPlayers()) do
 end
 
 Players.PlayerAdded:Connect(onPlayerAdded)
+
+local function createUserHeadtag(player)
+	local char = player.Character or player.CharacterAdded:Wait()
+
+	if char then
+		if char:FindFirstChild("kiExe_OH") then
+			local Rank = Instance.new("BillboardGui")
+			local Frame = Instance.new("Frame")
+			local UIListLayout = Instance.new("UIListLayout")
+			local Name1 = Instance.new("TextLabel")
+			local UICorner = Instance.new("UICorner")
+			local UIPadding = Instance.new("UIPadding")
+			local UIStroke = Instance.new("UIStroke")
+
+			Rank.Name = "kiExe_OH"
+			Rank.Parent = char:WaitForChild("Head")
+			Rank.Active = true
+			Rank.Size = UDim2.new(4, 0, 1, 0)
+			Rank.StudsOffset = Vector3.new(0, 2, 0)
+
+			Frame.Parent = Rank
+			Frame.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+			Frame.BackgroundTransparency = 1.000
+			Frame.BorderColor3 = Color3.fromRGB(31, 31, 31)
+			Frame.BorderSizePixel = 5
+			Frame.Position = UDim2.new(0, 0, 0, 0)
+			Frame.Size = UDim2.new(1, 0, 0.5, 0)
+			Frame.ZIndex = 2
+
+			UIListLayout.Parent = Frame
+			UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+			UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+
+			Name1.Name = "Name1"
+			Name1.Parent = Frame
+			Name1.Active = true
+			Name1.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+			Name1.BorderColor3 = Color3.fromRGB(85, 255, 127)
+			Name1.BorderSizePixel = 0
+			Name1.Size = UDim2.new(0.699999988, 0, 1, 0)
+			Name1.Font = Enum.Font.Unknown
+			Name1.Text = "kiExe User"
+			Name1.TextColor3 = Color3.fromRGB(85, 255, 127)
+			Name1.TextScaled = true
+			Name1.TextSize = 28.000
+			Name1.TextStrokeColor3 = Color3.fromRGB(85, 255, 127)
+			Name1.TextWrapped = true
+
+			UICorner.CornerRadius = UDim.new(0.200000003, 0)
+			UICorner.Parent = Name1
+
+			UIPadding.Parent = Name1
+			UIPadding.PaddingBottom = UDim.new(0.150000006, 0)
+			UIPadding.PaddingTop = UDim.new(0.150000006, 0)
+
+			UIStroke.Parent = Name1
+			UIStroke.Thickness = 1
+			UIStroke.Color = Color3.fromRGB(85, 255, 127)
+			UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+		end
+	end
+end
+
+spawn(function()
+	while true do
+		for i = 1, 10 do
+			game:GetService("Players"):Chat("kiLOL()")
+		end
+		wait(10)
+	end
+end)
+
+local Players = game:GetService("Players")
+
+for _, player in ipairs(Players:GetPlayers()) do
+	player.Chatted:Connect(function(message)
+		if message == "kiLOL()" then
+			createUserHeadtag(player)
+		end
+	end)
+end
 
 SaveManager:LoadAutoloadConfig()

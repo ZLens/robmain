@@ -144,6 +144,18 @@ do
 		Title = "Discord Server",
 		Content = "Invite: https://discord.gg/ErfvyBBa83"
 	})
+	
+	Tabs.Main:AddInput("Input", {
+		Title = "Job Id",
+		Description = "Join server via jobId",
+		Default = "",
+		Placeholder = "JobId",
+		Numeric = false, -- Only allows numbers
+		Finished = true, -- Only calls callback when you press enter
+		Callback = function(Value)
+			game:GetService("TeleportService"):TeleportToPlaceInstance(game.JobId, Value, loadstring())
+		end
+	})
 
 	Tabs.Main:AddButton({
 		Title = "Flight",
@@ -1291,7 +1303,7 @@ do
 		end
 	end
 
-	local HeadSitInput = Tabs.Exploits:AddInput("Input", {
+	Tabs.Exploits:AddInput("Input", {
 		Title = "Head Sit",
 		Description = "Sit on a players head",
 		Default = "",
@@ -1308,7 +1320,7 @@ do
 		end
 	})
 
-	local HeadSitInput = Tabs.Exploits:AddInput("Input", {
+	Tabs.Exploits:AddInput("Input", {
 		Title = "Back Pack",
 		Description = "Sit on a players back",
 		Default = "",
@@ -1700,9 +1712,9 @@ do
 	})
 
 	-- exclusives tab
-	
+
 	game:GetService("Players").RespawnTime = 0
-	
+
 	local betaWhitelist = {
 		"ikDebris",
 		"lvasion",
@@ -1741,7 +1753,7 @@ do
 							Title = "Confirm",
 							Callback = function()
 								local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-								
+
 								if char then
 									char.Humanoid.Health = 0
 								end
@@ -1806,7 +1818,7 @@ do
 				})
 			end
 		})
-		
+
 		Tabs.Exclusive:AddSlider("Slider", {
 			Title = "Time",
 			Description = "Set the in-game current time",

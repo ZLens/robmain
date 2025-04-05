@@ -1469,6 +1469,70 @@ do
 		end
 	})
 
+	Tabs.Exploits:AddButton({ 
+		Title = "Unclaim All Booths", 
+		Description = "Unclaims all booths automatically.",
+		Callback = function()
+			Window:Dialog({
+				Title = "Unclaim All Booths",
+				Content = "Are you sure you want to unclaim all booths?",
+				Buttons = {
+					{
+						Title = "Confirm",
+						Callback = function()
+							local Folder = workspace:WaitForChild("Booth")
+							local OldCF = LocalPlayer.Character.HumanoidRootPart.CFrame
+
+							local function setupProximityPrompt(stall)
+								local ProximityPrompt = stall:FindFirstChild("Activate"):FindFirstChildOfClass("ProximityPrompt")
+								if ProximityPrompt then
+									ProximityPrompt.Enabled = true
+									ProximityPrompt.ClickablePrompt = true
+									ProximityPrompt.MaxActivationDistance = 15
+									ProximityPrompt.RequiresLineOfSight = false
+									ProximityPrompt.HoldDuration = 0
+								end
+								return ProximityPrompt
+							end
+
+							for _, stall in ipairs(Folder:GetChildren()) do
+								local ownerTag = stall:FindFirstChild("Username") and stall.Username:FindFirstChild("BillboardGui") and stall.Username.BillboardGui:FindFirstChild("TextLabel")
+								if ownerTag and ownerTag.Text ~= "Owned by: " then
+									local ProximityPrompt = setupProximityPrompt(stall)
+									if ProximityPrompt then
+										LocalPlayer.Character:PivotTo(stall:GetPivot())
+										task.wait(0.3)
+										fireproximityprompt(ProximityPrompt)
+										task.wait(0.2)
+
+										local args = {
+											[1] = "",
+											[2] = "Gray",
+											[3] = "SourceSans"
+										}
+
+										game.ReplicatedStorage:WaitForChild("UpdateBoothText"):FireServer(unpack(args))
+										game.ReplicatedStorage:WaitForChild("DeleteBoothOwnership"):FireServer()
+										task.wait(0.2)
+									end
+								end
+								task.wait(0.5)
+							end
+
+							LocalPlayer.Character:SetPrimaryPartCFrame(OldCF)
+						end
+					},
+					{
+						Title = "Cancel",
+						Callback = function()
+							
+						end
+					}
+				}
+			})
+		end
+	})
+
 	-- lighting tab
 
 	Tabs.Lighting:AddButton({

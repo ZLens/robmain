@@ -2381,7 +2381,7 @@ task.spawn(function()
 		for _, player in ipairs(game:GetService("Players"):GetPlayers()) do
 			game:GetService("Players"):Chat("kiExe()")
 		end
-		task.wait(10)
+		task.wait(60)
 	end
 end)
 

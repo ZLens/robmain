@@ -85,29 +85,8 @@ end
 local clientConfig = {
 	Flying = false,
 	FlyingSpeed = 50,
-	BaseplateTransparency = 0,
-	BillboardToggled = false
+	BaseplateTransparency = 0
 }
-
-task.spawn(function()
-	while task.wait() do
-		local folder = workspace:GetDescendants()
-		
-		if clientConfig.BillboardToggled then
-			for _,v in pairs(folder) do
-				if v:IsA("BillboardGui") then
-					v.Enabled = false
-				end
-			end
-		else
-			for _,v in pairs(folder) do
-				if v:IsA("BillboardGui") then
-					v.Enabled = true
-				end
-			end
-		end
-	end
-end)
 
 local uis = game:GetService("UserInputService")
 local sStoreSize = UDim2.fromOffset(0, 0)
@@ -209,18 +188,34 @@ do
 		Callback = function()
 			Window:Dialog({
 				Title = "Billboard Gui",
-				Content = "Would you like to enable or disable flight?",
+				Content = "Would you like to enable or disable billboard guis?",
 				Buttons = {
 					{
 						Title = "Enable",
 						Callback = function()
-							clientConfig.BillboardToggled = false
+							local folder = workspace:GetDescendants()
+
+							if #folder > 0 then
+								for _,v in pairs(folder) do
+									if v:IsA("BillboardGui") then
+										v.Enabled = true
+									end
+								end
+							end
 						end
 					},
 					{
 						Title = "Disable",
 						Callback = function()
-							clientConfig.BillboardToggled = true
+							local folder = workspace:GetDescendants()
+
+							if #folder > 0 then
+								for _,v in pairs(folder) do
+									if v:IsA("BillboardGui") then
+										v.Enabled = false
+									end
+								end
+							end
 						end
 					}
 				}

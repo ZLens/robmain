@@ -85,8 +85,29 @@ end
 local clientConfig = {
 	Flying = false,
 	FlyingSpeed = 50,
-	BaseplateTransparency = 0
+	BaseplateTransparency = 0,
+	BillboardToggled = false
 }
+
+task.spawn(function()
+	while task.wait() do
+		local folder = workspace:GetDescendants()
+		
+		if clientConfig.BillboardToggled then
+			for _,v in pairs(folder) do
+				if v:IsA("BillboardGui") then
+					v.Enabled = false
+				end
+			end
+		else
+			for _,v in pairs(folder) do
+				if v:IsA("BillboardGui") then
+					v.Enabled = true
+				end
+			end
+		end
+	end
+end)
 
 local uis = game:GetService("UserInputService")
 local sStoreSize = UDim2.fromOffset(0, 0)
@@ -175,6 +196,31 @@ do
 						Title = "Disable",
 						Callback = function()
 
+						end
+					}
+				}
+			})
+		end
+	})
+	
+	Tabs.Main:AddButton({
+		Title = "Billboard Gui's",
+		Description = "Toggle billboard gui's",
+		Callback = function()
+			Window:Dialog({
+				Title = "Billboard Gui",
+				Content = "Would you like to enable or disable flight?",
+				Buttons = {
+					{
+						Title = "Enable",
+						Callback = function()
+							clientConfig.BillboardToggled = false
+						end
+					},
+					{
+						Title = "Disable",
+						Callback = function()
+							clientConfig.BillboardToggled = true
 						end
 					}
 				}

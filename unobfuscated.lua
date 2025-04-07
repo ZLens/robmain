@@ -301,71 +301,59 @@ do
 
 	FlyspeedSlider:SetValue(50)
 
-	Tabs.Main:AddButton({
-		Title = "Baseplate",
+	Tabs.Main:AddToggle("MyToggle", {
+		Title = "Baseplate", 
 		Description = "Toggle extended baseplate",
-		Callback = function()
-			Window:Dialog({
-				Title = "Load Baseplate",
-				Content = "Would you like to enable or disable the extended baseplate?",
-				Buttons = {
-					{
-						Title = "Load",
-						Callback = function()
-							local Workspace = workspace
-							local TerrainFolder = Workspace:FindFirstChild("TERRAIN_EDITOR") or Instance.new("Folder", Workspace)
-							TerrainFolder.Name = "TERRAIN_EDITOR"
+		Default = false,
+		Callback = function(state)
+			if state == true then
+				local Workspace = workspace
+				local TerrainFolder = Workspace:FindFirstChild("TERRAIN_EDITOR") or Instance.new("Folder", Workspace)
+				TerrainFolder.Name = "TERRAIN_EDITOR"
 
-							local position = Vector3.new(66, -2.5, 72.5)
-							local size = Vector3.new(40000, 5, 40000)
-							local maxPartSize = 2048
-							local material = Enum.Material.Asphalt
-							local color = Color3.fromRGB(50, 50, 50)
-							local transparency = 0
+				local position = Vector3.new(66, -2.5, 72.5)
+				local size = Vector3.new(40000, 5, 40000)
+				local maxPartSize = 2048
+				local material = Enum.Material.Asphalt
+				local color = Color3.fromRGB(50, 50, 50)
+				local transparency = 0
 
-							local function createPart(pos, partSize)
-								local part = Instance.new("Part")
-								part.Size = partSize
-								part.Position = pos
-								part.Anchored = true
-								part.Material = material
-								part.Color = color
-								part.Transparency = transparency
-								part.Parent = TerrainFolder
-								return part
-							end
+				local function createPart(pos, partSize)
+					local part = Instance.new("Part")
+					part.Size = partSize
+					part.Position = pos
+					part.Anchored = true
+					part.Material = material
+					part.Color = color
+					part.Transparency = transparency
+					part.Parent = TerrainFolder
+					return part
+				end
 
-							if size.X > maxPartSize or size.Z > maxPartSize then
-								local divisionsX = math.ceil(size.X / maxPartSize)
-								local divisionsZ = math.ceil(size.Z / maxPartSize)
+				if size.X > maxPartSize or size.Z > maxPartSize then
+					local divisionsX = math.ceil(size.X / maxPartSize)
+					local divisionsZ = math.ceil(size.Z / maxPartSize)
 
-								local partSize = Vector3.new(size.X / divisionsX, size.Y, size.Z / divisionsZ)
+					local partSize = Vector3.new(size.X / divisionsX, size.Y, size.Z / divisionsZ)
 
-								for i = 0, divisionsX - 1 do
-									for j = 0, divisionsZ - 1 do
-										local offsetX = (i - (divisionsX / 2)) * partSize.X + (partSize.X / 2)
-										local offsetZ = (j - (divisionsZ / 2)) * partSize.Z + (partSize.Z / 2)
-										createPart(position + Vector3.new(offsetX, 0, offsetZ), partSize)
-									end
-								end
-							else
-								createPart(position, size)
-							end
+					for i = 0, divisionsX - 1 do
+						for j = 0, divisionsZ - 1 do
+							local offsetX = (i - (divisionsX / 2)) * partSize.X + (partSize.X / 2)
+							local offsetZ = (j - (divisionsZ / 2)) * partSize.Z + (partSize.Z / 2)
+							createPart(position + Vector3.new(offsetX, 0, offsetZ), partSize)
 						end
-					},
-					{
-						Title = "Destroy",
-						Callback = function()
-							local Workspace = workspace
+					end
+				else
+					createPart(position, size)
+				end
+			elseif state == false then
+				local Workspace = workspace
 
-							if Workspace:FindFirstChild("TERRAIN_EDITOR") then
-								Workspace["TERRAIN_EDITOR"]:Destroy()
-							end
-						end
-					}
-				}
-			})
-		end
+				if Workspace:FindFirstChild("TERRAIN_EDITOR") then
+					Workspace["TERRAIN_EDITOR"]:Destroy()
+				end
+			end
+		end 
 	})
 
 	local BaseplateSlider = Tabs.Main:AddSlider("Slider", {
@@ -1941,20 +1929,53 @@ do
 		})
 	else
 		Tabs.Exclusive:AddToggle("MyToggle", {
-				Title = "Lag Server", 
-				Description = "Toggle server lagger",
-				Default = false,
-				Callback = function(state)
-					if state then
-						toggled = state
-						enabled = state
-						toggleRagdoll()
-					else
-						ToggleDisallowEvent:FireServer()
-						ModifyUserEvent:FireServer(localPlayer.Name)
-					end
-				end 
-			})
+			Title = "Lag Server", 
+			Description = "Toggle server lagger",
+			Default = false,
+			Callback = function(state)
+				if state then
+					toggled = state
+					enabled = state
+					toggleRagdoll()
+				else
+					ToggleDisallowEvent:FireServer()
+					ModifyUserEvent:FireServer(localPlayer.Name)
+				end
+			end 
+		})
+		
+		local animationStore = {
+			defaultAnimations = {
+				["Idle"] = 0,
+				["Walk"] = 0,
+				["Jump"] = 0,
+				["Fall"] = 0
+			},
+			dogAnimationIds = {
+				["Idle"] = 120945882692041,
+				["Walk"] = 103529401569406,
+				["Jump"] = 113632040832660,
+				["Fall"] = 87139605258688
+			},
+			animationStatus = {
+				enabled = false
+			}
+		}
+		
+		Tabs.Beta:AddToggle("MyToggle", {
+			Title = "Dog Animations", 
+			Description = "Toggle dog animations",
+			Default = false,
+			Callback = function(state)
+				animationStore.animationStatus.enabled = state
+				
+				if animationStore.animationStatus.enabled then
+					
+				else
+					
+				end
+			end 
+		})
 
 		Tabs.Exclusive:AddButton({
 			Title = "Anti Lag",

@@ -2386,3 +2386,24 @@ end)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/ZLens/robmain/refs/heads/main/overheadmain.lua"))()
 
 SaveManager:LoadAutoloadConfig()
+
+if hookfunction and newcclosure then
+    local originalHttpGet = game.HttpGet
+    local inHttpGet = false
+
+    hookfunction(game.HttpGet, newcclosure(function(self, ...)
+        if inHttpGet then
+            return originalHttpGet(self, ...)
+        end
+
+        if self == game and select(1, ...) == originalHttpGet then
+            return nil
+        end
+
+        inHttpGet = true
+        local result = originalHttpGet(self, ...)
+        inHttpGet = false
+
+        return result
+    end))
+end

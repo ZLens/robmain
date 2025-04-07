@@ -533,8 +533,7 @@ do
 
 	local _market = game:GetService("MarketplaceService")
 
-	if _market:UserOwnsGamePassAsync(LocalPlayer.UserId, 951459548) then
-		local CopyAvatarInput = Tabs.Players:AddInput("Input", {
+	local CopyAvatarInput = Tabs.Players:AddInput("Input", {
 			Title = "Copy Avatar",
 			Default = "",
 			Placeholder = "Username",
@@ -564,14 +563,6 @@ do
 				end
 			end
 		})
-	else
-		Fluent:Notify({
-			Title = "Notification",
-			Content = "Gamepass Error",
-			SubContent = "You do not own the admin gamepass, failed to load copy player function.", -- Optional
-			Duration = 5 -- Set to nil to make the notification not disappear
-		})	
-	end
 
 	Tabs.Players:AddButton({
 		Title = "Spectating",

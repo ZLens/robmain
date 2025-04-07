@@ -130,7 +130,7 @@ local Tabs = {
 local Options = Fluent.Options
 
 if setclipboard then
-	setclipboard("https://discord.gg/ErfvyBBa83")
+	setclipboard("https://discord.gg/kiexe")
 end
 
 do
@@ -148,7 +148,7 @@ do
 
 	Tabs.Main:AddParagraph({
 		Title = "Discord Server",
-		Content = "Invite: https://discord.gg/ErfvyBBa83"
+		Content = "Invite: https://discord.gg/kiexe"
 	})
 
 	Tabs.Main:AddInput("Input", {

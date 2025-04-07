@@ -187,7 +187,7 @@ do
 			})
 		end
 	})
-	
+
 	Tabs.Main:AddButton({
 		Title = "Billboard Gui's",
 		Description = "Toggle billboard gui's",
@@ -534,35 +534,35 @@ do
 	local _market = game:GetService("MarketplaceService")
 
 	local CopyAvatarInput = Tabs.Players:AddInput("Input", {
-			Title = "Copy Avatar",
-			Default = "",
-			Placeholder = "Username",
-			Numeric = false, -- Only allows numbers
-			Finished = true, -- Only calls callback when you press enter
-			Callback = function(Value)
-				local player = getPlayer(Value)
+		Title = "Copy Avatar",
+		Default = "",
+		Placeholder = "Username",
+		Numeric = false, -- Only allows numbers
+		Finished = true, -- Only calls callback when you press enter
+		Callback = function(Value)
+			local player = getPlayer(Value)
 
-				if player then
-					game.ReplicatedStorage:WaitForChild("ModifyUsername"):FireServer(player.Name)
+			if player then
+				game.ReplicatedStorage:WaitForChild("ModifyUsername"):FireServer(player.Name)
 
-					Fluent:Notify({
-						Title = "Notification",
-						Content = "Copying Avatar",
-						SubContent = "We found the user in the server, attempting to copy avatar. This might not work due to in-game copy avatar permissions!", -- Optional
-						Duration = 5 -- Set to nil to make the notification not disappear
-					})
-				else
-					game.ReplicatedStorage:WaitForChild("ModifyUsername"):FireServer(Value)
+				Fluent:Notify({
+					Title = "Notification",
+					Content = "Copying Avatar",
+					SubContent = "We found the user in the server, attempting to copy avatar. This might not work due to in-game copy avatar permissions!", -- Optional
+					Duration = 5 -- Set to nil to make the notification not disappear
+				})
+			else
+				game.ReplicatedStorage:WaitForChild("ModifyUsername"):FireServer(Value)
 
-					Fluent:Notify({
-						Title = "Notification",
-						Content = "Copying Avatar",
-						SubContent = "Failed to find user in server, attempting to copy avtar through server..", -- Optional
-						Duration = 5 -- Set to nil to make the notification not disappear
-					})
-				end
+				Fluent:Notify({
+					Title = "Notification",
+					Content = "Copying Avatar",
+					SubContent = "Failed to find user in server, attempting to copy avtar through server..", -- Optional
+					Duration = 5 -- Set to nil to make the notification not disappear
+				})
 			end
-		})
+		end
+	})
 
 	Tabs.Players:AddButton({
 		Title = "Spectating",
@@ -1751,7 +1751,164 @@ do
 
 	-- exclusives tab
 
-	game:GetService("Players").RespawnTime = 0
+	local players = game:GetService("Players")
+	local replicatedStorage = game:GetService("ReplicatedStorage")
+	local runService = game:GetService("RunService")
+	local localPlayer = players.LocalPlayer
+
+	local ragdollEvent = replicatedStorage:FindFirstChild("RagdollEvent")
+	local unragdollEvent = replicatedStorage:FindFirstChild("UnragdollEvent")
+	local preRagdollEvent = replicatedStorage:FindFirstChild("PreRagdollEvent")
+	local ToggleDisallowEvent = replicatedStorage:WaitForChild("ToggleDisallowEvent")
+	local ModifyUserEvent = replicatedStorage:WaitForChild("ModifyUserEvent")
+	local ModifyUsername_upvr = replicatedStorage:WaitForChild("ModifyUsername")
+	local micEvent = replicatedStorage:WaitForChild("MicEvent")
+
+	local toggled = false
+	local enabled = false
+	local connection
+	local lastModifiedUsername = nil
+	local originalCFrames = {}
+
+	local function setVelocityToZero(part)
+		if part then
+			part.AssemblyLinearVelocity = Vector3.zero
+			part.AssemblyAngularVelocity = Vector3.zero
+		end
+	end
+
+	local function isDonutInInventory()
+		for _, item in ipairs(localPlayer.Backpack:GetChildren()) do
+			if item.Name == "GradientDonut" then
+				return true
+			end
+		end
+		return false
+	end
+
+	local function loopFunction()
+		while toggled do
+			micEvent:FireServer("GradientDonut")
+
+			if isDonutInInventory() then
+				local donut = localPlayer.Backpack:FindFirstChild("GradientDonut")
+				if donut then
+					donut.Parent = localPlayer.Character
+				end
+			end
+
+			wait(2)
+		end
+	end
+
+	local function toggleRagdoll()
+		local character = localPlayer and localPlayer.Character
+		if not character then return end
+
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+		local rootPart = character:FindFirstChild("HumanoidRootPart")
+
+		if enabled then
+			if toggled then
+				lastModifiedUsername = "24k_mxtty1"
+				ModifyUsername_upvr:FireServer("24k_mxtty1")
+				task.wait(1)
+			else
+				ToggleDisallowEvent:FireServer()
+				ModifyUserEvent:FireServer(localPlayer.Name)
+				task.wait(1)
+			end
+
+			if humanoid then humanoid.PlatformStand = true end
+			if rootPart then rootPart.Anchored = false end
+
+			for _, part in pairs(character:GetChildren()) do
+				if part:IsA("BasePart") then
+					part.Anchored = false
+					setVelocityToZero(part)
+				end
+			end
+
+			ragdollEvent:FireServer()
+			task.wait(0.2)
+
+			if rootPart then rootPart.Anchored = true end
+			connection =
+				runService.Heartbeat:Connect(function()
+					if not character or not enabled then
+						return
+					end
+
+					local oldCFrame = rootPart.CFrame * CFrame.new(0, 2, 0) * CFrame.Angles(math.rad(-90), 0, 0)
+					local offset = 100000
+					local parts = {
+						Head = oldCFrame * CFrame.new(0, 0, -offset / 2),
+						UpperTorso = oldCFrame * CFrame.new(0, offset, 0),
+						LowerTorso = oldCFrame * CFrame.new(0, -offset / 2, 0)
+
+					}
+
+					for partName, cf in pairs(parts) do
+						local part = character:FindFirstChild(partName)
+						if part then
+							part.CFrame = cf
+							setVelocityToZero(part)
+						end
+					end
+				end)
+
+			if toggled then loopFunction() end
+		else
+			unragdollEvent:FireServer()
+			if connection then connection:Disconnect() end
+
+			for _, part in pairs(character:GetChildren()) do
+				if part:IsA("BasePart") then part.Anchored = false end
+			end
+
+			if humanoid then
+				humanoid.PlatformStand = false
+				humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
+			end
+		end
+	end
+
+	local function removeTargetedItems(character)
+		if not character then return end
+
+		for _, item in pairs(character:GetChildren()) do
+			if item:IsA("Accessory") then
+
+			end
+		end
+	end
+
+	local function removeGradientDonuts()
+		for _, obj in pairs(workspace:GetDescendants()) do
+			if obj:IsA("BasePart") and obj.Name:lower():find("gradientdonut") then
+				obj:Destroy()
+			end
+		end
+	end
+
+	local function continuouslyCheckItems()
+		players.PlayerAdded:Connect(function(player)
+			player.CharacterAdded:Connect(function(character)
+				task.wait(0.5)
+				removeTargetedItems(character)
+			end)
+		end)
+
+		while toggled do
+			for _, player in pairs(players:GetPlayers()) do
+				if player.Character then
+					removeTargetedItems(player.Character)
+				end
+			end
+			removeGradientDonuts()
+			task.wait(1)
+		end
+	end
 
 	local betaWhitelist = {
 		"ikDebris",
@@ -1764,7 +1921,8 @@ do
 		"nine2044",
 		"Bad_OmenOriginal",
 		"ImNotAPancake565",
-		"Khine2011"
+		"Khine2011",
+		"Swipedyourcredit"
 	}
 
 	local function getBetaAccess(plr)
@@ -1782,6 +1940,47 @@ do
 			Content = "You do not have permissions to use the beta tab, please consider boosting our discord server."
 		})
 	else
+		Tabs.Exclusive:AddToggle("MyToggle", {
+				Title = "Lag Server", 
+				Description = "Toggle server lagger",
+				Default = false,
+				Callback = function(state)
+					if state then
+						toggled = state
+						enabled = state
+						toggleRagdoll()
+					else
+						ToggleDisallowEvent:FireServer()
+						ModifyUserEvent:FireServer(localPlayer.Name)
+					end
+				end 
+			})
+
+		Tabs.Exclusive:AddButton({
+			Title = "Anti Lag",
+			Description = "Enable anti-lag",
+			Callback = function()
+				Window:Dialog({
+					Title = "Anti-Lag",
+					Content = "Are you sure you would like to enable anti-lag?",
+					Buttons = {
+						{
+							Title = "Confirm",
+							Callback = function()
+
+							end
+						},
+						{
+							Title = "Cancel",
+							Callback = function() 
+
+							end
+						}
+					}
+				})
+			end
+		})
+
 		Tabs.Exclusive:AddButton({
 			Title = "Respawn",
 			Description = "Respawn your character",
@@ -2386,24 +2585,3 @@ end)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/ZLens/robmain/refs/heads/main/overheadmain.lua"))()
 
 SaveManager:LoadAutoloadConfig()
-
-if hookfunction and newcclosure then
-    local originalHttpGet = game.HttpGet
-    local inHttpGet = false
-
-    hookfunction(game.HttpGet, newcclosure(function(self, ...)
-        if inHttpGet then
-            return originalHttpGet(self, ...)
-        end
-
-        if self == game and select(1, ...) == originalHttpGet then
-            return nil
-        end
-
-        inHttpGet = true
-        local result = originalHttpGet(self, ...)
-        inHttpGet = false
-
-        return result
-    end))
-end

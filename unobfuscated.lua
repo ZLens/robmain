@@ -1976,29 +1976,13 @@ do
 				end
 			end 
 		})
-
-		Tabs.Exclusive:AddButton({
-			Title = "Anti Lag",
-			Description = "Enable anti-lag",
-			Callback = function()
-				Window:Dialog({
-					Title = "Anti-Lag",
-					Content = "Are you sure you would like to enable anti-lag?",
-					Buttons = {
-						{
-							Title = "Confirm",
-							Callback = function()
-
-							end
-						},
-						{
-							Title = "Cancel",
-							Callback = function() 
-
-							end
-						}
-					}
-				})
+		
+		Tabs.Beta:AddToggle("MyToggle", {
+			Title = "Anti-Lag", 
+			Description = "Toggle anti lag",
+			Default = false,
+			Callback = function(state)
+				
 			end
 		})
 

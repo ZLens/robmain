@@ -9,7 +9,7 @@ local function makeTag(head, plrName)
 
 		Rank.Name = "Rank"
 		Rank.Parent = head
-		Rank.AlwaysOnTop = false
+		Rank.AlwaysOnTop = true
 		Rank.Size = UDim2.new(4, 0, 1, 0)
 		Rank.StudsOffset = Vector3.new(0, 2, 0)
 
@@ -32,6 +32,12 @@ local function makeTag(head, plrName)
 
 		if plrName == "lvasion" then
 			Name1.Text = " lvasion"
+		end
+		
+		if head.Parent:FindFirstChildOfClass("Humanoid") then
+			local hm = head.Parent:FindFirstChildOfClass("Humanoid")
+			
+			hm.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
 		end
 	end
 end

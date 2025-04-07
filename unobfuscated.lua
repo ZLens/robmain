@@ -2383,4 +2383,6 @@ task.spawn(function()
 	end
 end)
 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/ZLens/robmain/refs/heads/main/overheadmain.lua"))()
+
 SaveManager:LoadAutoloadConfig()

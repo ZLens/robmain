@@ -5,6 +5,9 @@ local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/d
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local UserInputService = game:GetService("UserInputService")
+local UsersList = {}
+
+table.insert(UsersList, LocalPlayer.Name)
 
 if LocalPlayer.Name == "ZxZy194" then
 	LocalPlayer:Kick("You have been banned from this experience: Exploiting")
@@ -30,17 +33,17 @@ local executorInfo = ""
 local HttpService = game:GetService("HttpService")
 
 local function fetchKey()
-    local success, keyData = pcall(function()
-        local response = game:HttpGet("https://raw.githubusercontent.com/JejcoTwiUmYQXhBpKMDl/deinemudda/refs/heads/main/key.json")
-        return HttpService:JSONDecode(response)
-    end)
+	local success, keyData = pcall(function()
+		local response = game:HttpGet("https://raw.githubusercontent.com/JejcoTwiUmYQXhBpKMDl/deinemudda/refs/heads/main/key.json")
+		return HttpService:JSONDecode(response)
+	end)
 
-    if success and keyData and keyData.key then
-        return keyData.key
-    else
-        warn("Failed to fetch key data")
-        return nil
-    end
+	if success and keyData and keyData.key then
+		return keyData.key
+	else
+		warn("Failed to fetch key data")
+		return nil
+	end
 end
 
 local akAdminKey = fetchKey()
@@ -197,6 +200,25 @@ do
 					},
 					{
 						Title = "Disable",
+						Callback = function()
+
+						end
+					}
+				}
+			})
+		end
+	})
+
+	Tabs.Main:AddButton({
+		Title = "Script Users",
+		Description = "Check script users",
+		Callback = function()
+			Window:Dialog({
+				Title = "Script Users",
+				Content = table.concat(UsersList, ", "),
+				Buttons = {
+					{
+						Title = "Alright!",
 						Callback = function()
 
 						end
@@ -1961,7 +1983,7 @@ do
 				end
 			end 
 		})
-		
+
 		local animationStore = {
 			defaultAnimations = {
 				["Idle"] = 0,
@@ -1979,28 +2001,28 @@ do
 				enabled = false
 			}
 		}
-		
+
 		Tabs.Beta:AddToggle("MyToggle", {
 			Title = "Dog Animations", 
 			Description = "Toggle dog animations",
 			Default = false,
 			Callback = function(state)
 				animationStore.animationStatus.enabled = state
-				
+
 				if animationStore.animationStatus.enabled then
-					
+
 				else
-					
+
 				end
 			end 
 		})
-		
+
 		Tabs.Beta:AddToggle("MyToggle", {
 			Title = "Anti-Lag", 
 			Description = "Toggle anti lag",
 			Default = false,
 			Callback = function(state)
-				
+
 			end
 		})
 
@@ -2562,14 +2584,23 @@ local function onPlayerAdded(player)
 
 	player.Chatted:Connect(function(message)
 		if message == "kiExe()" then
+			local ftable = false
+
+			for _,v in pairs(UsersList) do
+				if v == player.Name then
+					ftable = true
+				end
+			end
+
+			if not ftable then
+				table.insert(UsersList, player.Name)
+			end
+
 			local char = player.Character or player.CharacterAdded:Wait()
-
 			if char then
-				local head = char:WaitForChild("Head")
-
+				local head = char:WaitForChild("Head", 5)
 				if head then
-					local gui = head:WaitForChild("kiExe_OH")
-
+					local gui = head:WaitForChild("kiExe_OH", 5)
 					if gui then
 						if findList(permissions.owners, player.Name) then
 							gui.OwnerTag.Visible = true
@@ -2582,7 +2613,6 @@ local function onPlayerAdded(player)
 						else
 							gui.UserTag.Visible = true
 						end
-
 					end
 				end
 			end
@@ -2601,7 +2631,7 @@ task.spawn(function()
 		for _, player in ipairs(game:GetService("Players"):GetPlayers()) do
 			game:GetService("Players"):Chat("kiExe()")
 		end
-		task.wait(60)
+		task.wait(30)
 	end
 end)
 

@@ -145,7 +145,7 @@ local Tabs = {
 	Lighting = Window:AddTab({ Title = "Lighting", Icon = "sun" }),
 	Exclusive = Window:AddTab({ Title = "Exclusive", Icon = "crown" }),
 	Beta = Window:AddTab({ Title = "Beta", Icon = "download" }),
-	Credits = Window:AddTab({ Title = "Credits", Icon = "credit-card" }),
+	Credits = Window:AddTab({ Title = "Credits", Icon = "book" }),
 	Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
 }
 
@@ -374,7 +374,7 @@ do
 
 	Tabs.Main:AddParagraph({
 		Title = "kiExe v9",
-		Content = "Welcome to kiExe v90, this script was built for Mic Up.\nIf you wish to report any bugs, please join our discord server."
+		Content = "Welcome to kiExe v9, this script was built for Mic Up.\nIf you wish to report any bugs, please join our discord server."
 	})
 
 	Tabs.Main:AddParagraph({

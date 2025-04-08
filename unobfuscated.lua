@@ -907,7 +907,7 @@ do
 		Callback = function()
 			Window:Dialog({
 				Title = "Execution",
-				Content = "Would you like to inject infinite yield?",
+				Content = "Would you like to inject dashies copy animations script?",
 				Buttons = {
 					{
 						Title = "Confirm",

@@ -902,6 +902,31 @@ do
 	})
 
 	Tabs.Universals:AddButton({
+		Title = "Copy Animations",
+		Description = "Execute emotes gui (G: ToggleScript, M: Copy)",
+		Callback = function()
+			Window:Dialog({
+				Title = "Execution",
+				Content = "Would you like to inject infinite yield?",
+				Buttons = {
+					{
+						Title = "Confirm",
+						Callback = function()
+							loadstring(game:HttpGet("https://raw.githubusercontent.com/ZLens/robmain/refs/heads/main/copyanims.lua"))()
+						end
+					},
+					{
+						Title = "Cancel",
+						Callback = function() 
+
+						end
+					}
+				}
+			})
+		end
+	})
+
+	Tabs.Universals:AddButton({
 		Title = "AK Admin",
 		Description = "Key: " .. akAdminKey,
 		Callback = function()

@@ -2530,7 +2530,8 @@ local permissions = {
 	},
 	staff = {
 		"Khine2011",
-		"1can3uss"
+		"1can3uss",
+		"Mysterioustrangerz"
 	}
 }
 

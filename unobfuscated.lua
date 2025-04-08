@@ -902,31 +902,6 @@ do
 	})
 
 	Tabs.Universals:AddButton({
-		Title = "Copy Animations",
-		Description = "Execute emotes gui (G: ToggleScript, M: Copy)",
-		Callback = function()
-			Window:Dialog({
-				Title = "Execution",
-				Content = "Would you like to inject dashies copy animations script?",
-				Buttons = {
-					{
-						Title = "Confirm",
-						Callback = function()
-							loadstring(game:HttpGet("https://raw.githubusercontent.com/ZLens/robmain/refs/heads/main/copyanims.lua"))()
-						end
-					},
-					{
-						Title = "Cancel",
-						Callback = function() 
-
-						end
-					}
-				}
-			})
-		end
-	})
-
-	Tabs.Universals:AddButton({
 		Title = "AK Admin",
 		Description = "Key: " .. akAdminKey,
 		Callback = function()
@@ -1063,31 +1038,6 @@ do
 						Title = "Confirm",
 						Callback = function()
 							loadstring(game:HttpGet("https://raw.githubusercontent.com/ZLens/RobloxExperience/refs/heads/main/emotegui.lua"))()
-						end
-					},
-					{
-						Title = "Cancel",
-						Callback = function() 
-
-						end
-					}
-				}
-			})
-		end
-	})
-
-	Tabs.Universals:AddButton({
-		Title = "Larger Emotes GUI",
-		Description = "Execute Emotes GUI (Comma)",
-		Callback = function()
-			Window:Dialog({
-				Title = "Execution",
-				Content = "Would you like to inject emotes gui?",
-				Buttons = {
-					{
-						Title = "Confirm",
-						Callback = function()
-							loadstring(game:HttpGet("https://raw.githubusercontent.com/ZLens/robmain/refs/heads/main/biggeremotesgui.lua"))()
 						end
 					},
 					{
@@ -2145,6 +2095,48 @@ do
 			Content = "You do not have permissions to use the beta tab, please consider boosting our discord server."
 		})
 	else
+		local cloneEvent = game:GetService("ReplicatedStorage"):WaitForChild("ModifyUsername")
+		local cloneData = {
+			username = "",
+			active = false
+		}
+
+		local AutoCopyAvatarInput = Tabs.Exclusive:AddInput("Input", {
+			Title = "Auto Copy Avatar",
+			Default = "",
+			Placeholder = "Username",
+			Numeric = false,
+			Finished = true,
+			Callback = function(Value)
+				cloneData.active = true
+				cloneData.username = Value
+				cloneEvent:FireServer(cloneData.username)
+			end
+		})
+
+		Tabs.Exclusive:AddButton({
+			Title = "Auto Copy Avatar",
+			Description = "Stop copying avatar",
+			Callback = function()
+				cloneData.username = ""
+				cloneData.active = false
+
+				Fluent:Notify({
+					Title = "Auto-Copy Avatar",
+					Content = "Script stalled, force stop initiated.",
+					Duration = 8
+				})
+			end
+		})
+
+		LocalPlayer.CharacterAdded:Connect(function(char)
+			if char and char:WaitForChild("Humanoid") then
+				if cloneData.active and cloneData.username ~= "" then
+					cloneEvent:FireServer(cloneData.username)
+				end
+			end
+		end)
+		
 		Tabs.Exclusive:AddToggle("MyToggle", {
 			Title = "Lag Switch",
 			Description = "Toggle the lag server exploit",

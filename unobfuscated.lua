@@ -300,7 +300,7 @@ do
 		end
 	end
 
-	Tabs.Exclusives:AddToggle("MyToggle", {
+	Tabs.Exclusive:AddToggle("MyToggle", {
 		Title = "Lag Switch",
 		Description = "Toggle the lag server exploit",
 		Default = false,
@@ -375,7 +375,7 @@ do
 		end
 	end
 
-	Tabs.Exclusives:AddToggle("MyToggle", {
+	Tabs.Exclusive:AddToggle("MyToggle", {
 		Title = "Remove Accessories",
 		Description = "Remove auras, gradient donuts, etc.",
 		Default = false,

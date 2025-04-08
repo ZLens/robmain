@@ -145,6 +145,7 @@ local Tabs = {
 	Lighting = Window:AddTab({ Title = "Lighting", Icon = "sun" }),
 	Exclusive = Window:AddTab({ Title = "Exclusive", Icon = "crown" }),
 	Beta = Window:AddTab({ Title = "Beta", Icon = "download" }),
+	Credits = Window:AddTab({ Title = "Credits", Icon = "credit-card" }),
 	Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
 }
 
@@ -379,6 +380,11 @@ do
 	Tabs.Main:AddParagraph({
 		Title = "Discord Server",
 		Content = "Invite: https://discord.gg/kiexe"
+	})
+
+	Tabs.Credits:AddParagraph({
+		Title = "Credits Tab",
+		Content = "Script Owner & Developer\n-lvasion\nScript Owner\n-Pandaphoebe6760\nScript Co-Owner & Developer\n-Swipedyourcredit"
 	})
 
 	Tabs.Main:AddButton({

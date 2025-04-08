@@ -300,17 +300,6 @@ do
 		end
 	end
 
-	Tabs.Exclusive:AddToggle("MyToggle", {
-		Title = "Lag Switch",
-		Description = "Toggle the lag server exploit",
-		Default = false,
-		Callback = function(state)
-			toggled = state
-			enabled = state
-			toggleRagdoll()
-		end
-	})
-
 	local targetItemNames = { "aura", "Fluffy Satin Gloves Black" }
 	local removeToggled = false
 
@@ -375,18 +364,6 @@ do
 		end
 	end
 
-	Tabs.Exclusive:AddToggle("MyToggle", {
-		Title = "Remove Accessories",
-		Description = "Remove auras, gradient donuts, etc.",
-		Default = false,
-		Callback = function(state)
-			removeToggled = state
-			if state then
-				task.spawn(continuouslyCheckItems)
-			end
-		end
-	})
-	
 	Fluent:Notify({
 		Title = "Notification",
 		Content = "Loading",
@@ -2122,6 +2099,29 @@ do
 			Content = "You do not have permissions to use the beta tab, please consider boosting our discord server."
 		})
 	else
+		Tabs.Exclusive:AddToggle("MyToggle", {
+			Title = "Lag Switch",
+			Description = "Toggle the lag server exploit",
+			Default = false,
+			Callback = function(state)
+				toggled = state
+				enabled = state
+				toggleRagdoll()
+			end
+		})
+
+		Tabs.Exclusive:AddToggle("MyToggle", {
+			Title = "Remove Accessories",
+			Description = "Remove auras, gradient donuts, etc.",
+			Default = false,
+			Callback = function(state)
+				removeToggled = state
+				if state then
+					task.spawn(continuouslyCheckItems)
+				end
+			end
+		})
+		
 		Tabs.Exclusive:AddInput("Input", {
 			Title = "Job Id",
 			Description = "Join server via jobId",

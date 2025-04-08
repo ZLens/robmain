@@ -351,7 +351,7 @@ do
 			end
 		end 
 	})
-	
+
 	local FlyspeedSlider = Tabs.Main:AddSlider("Slider", {
 		Title = "Flight Speed",
 		Description = "Set current fly speed",
@@ -1402,6 +1402,54 @@ do
 		end
 	end
 
+	local glitchToggled = false
+	local storePosition = nil
+
+	Tabs.Exploits:AddToggle("MyToggle", {
+		Title = "Toggle Glitch",
+		Description = "Glitch side to side",
+		Default = false,
+		Callback = function(state)
+			if state == true then
+				glitchToggled = true
+				local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+
+				if char then
+					storePosition = Instance.new("Part")
+					storePosition.CFrame = char.PrimaryPart.CFrame
+					storePosition.Size = Vector3.new(1, 1, 1)
+					storePosition.Transparency = 1
+					storePosition.CanCollide = true
+					storePosition.Anchored = true
+					storePosition.Parent = workspace
+
+					task.spawn(function()
+						while glitchToggled and storePosition do
+							char:SetPrimaryPartCFrame(storePosition.CFrame * CFrame.new(-8, 0, 0))
+							task.wait(0.1)
+							char:SetPrimaryPartCFrame(storePosition.CFrame * CFrame.new(8, 0, 0))
+							task.wait(0.1)
+						end
+					end)
+				end
+			else
+				glitchToggled = false
+				if storePosition then
+					local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+
+					if char then
+						char:SetPrimaryPartCFrame(storePosition.CFrame)
+						storePosition:Destroy()
+						storePosition = nil
+					else
+						storePosition:Destroy()
+						storePosition = nil
+					end
+				end
+			end
+		end
+	})
+
 	Tabs.Exploits:AddInput("Input", {
 		Title = "Head Sit",
 		Description = "Sit on a players head",
@@ -2012,7 +2060,7 @@ do
 				game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, tostring(Value), LocalPlayer)
 			end
 		})
-		
+
 		Tabs.Exclusive:AddToggle("MyToggle", {
 			Title = "Lag Server", 
 			Description = "Toggle server lagger",

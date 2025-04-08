@@ -172,43 +172,6 @@ do
 		Content = "Invite: https://discord.gg/kiexe"
 	})
 
-	Tabs.Main:AddInput("Input", {
-		Title = "Job Id",
-		Description = "Join server via jobId",
-		Default = "",
-		Placeholder = "JobId",
-		Numeric = false, -- Only allows numbers
-		Finished = true, -- Only calls callback when you press enter
-		Callback = function(Value)
-			game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, tostring(Value), LocalPlayer)
-		end
-	})
-
-	Tabs.Main:AddButton({
-		Title = "Flight",
-		Description = "Toggle client flight",
-		Callback = function()
-			Window:Dialog({
-				Title = "Flight Mode",
-				Content = "Would you like to enable or disable flight?",
-				Buttons = {
-					{
-						Title = "Enable",
-						Callback = function()
-
-						end
-					},
-					{
-						Title = "Disable",
-						Callback = function()
-
-						end
-					}
-				}
-			})
-		end
-	})
-
 	Tabs.Main:AddButton({
 		Title = "Script Users",
 		Description = "Check script users",
@@ -303,22 +266,92 @@ do
 		end
 	})
 
-	local FlightKeybind = Tabs.Main:AddKeybind("Keybind", {
-		Title = "QuickFlight Keybind",
-		Mode = "Toggle",
-		Default = "X",
+	Tabs.Main:AddToggle("MyToggle", {
+		Title = "Toggle Flight", 
+		Description = "Toggle fly",
+		Default = false,
+		Callback = function(state)
+			if state == true then
+				clientConfig.Flying = true
+				if LocalPlayer.Character then
+					local rootPart = LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+					local humanoid = LocalPlayer.Character:WaitForChild("Humanoid")
 
-		Callback = function(Value)
-			if Value then
+					local bodyGyro = Instance.new("BodyGyro")
+					bodyGyro.Parent = rootPart
+					bodyGyro.MaxTorque = Vector3.new(math.huge, math.huge, math.huge)
+					bodyGyro.D = 200
 
-			else
+					local bodyVelocity = Instance.new("BodyVelocity")
+					bodyVelocity.Parent = rootPart
+					bodyVelocity.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+					bodyVelocity.P = 5000
+					LocalPlayer.Character.Humanoid.PlatformStand = true
 
+					local jumpConnection
+					jumpConnection = humanoid.Changed:Connect(function()
+						if not clientConfig.Flying then
+							jumpConnection:Disconnect()
+						end
+						humanoid.Jump = false
+					end)
+
+					spawn(function()
+						while clientConfig.Flying do
+							wait(0.05)
+							local cameraCF = workspace.CurrentCamera.CFrame
+
+							local forward = 0
+							local right = 0
+							local up = 0
+
+							if UserInputService:IsKeyDown(Enum.KeyCode.W) then
+								forward = 1
+							elseif UserInputService:IsKeyDown(Enum.KeyCode.S) then
+								forward = -1
+							end
+
+							if UserInputService:IsKeyDown(Enum.KeyCode.A) then
+								right = -1
+							elseif UserInputService:IsKeyDown(Enum.KeyCode.D) then
+								right = 1
+							end
+
+							if UserInputService:IsKeyDown(Enum.KeyCode.Space) then
+								up = 1
+							elseif UserInputService:IsKeyDown(Enum.KeyCode.LeftControl) then
+								up = -1
+							end
+
+							local moveDirection = (cameraCF.LookVector * forward + cameraCF.RightVector * right + Vector3.new(0, up, 0)).Unit
+							if moveDirection.Magnitude > 0 then
+								bodyVelocity.Velocity = moveDirection * clientConfig.FlyingSpeed
+							else
+								bodyVelocity.Velocity = Vector3.new(0, 0, 0)
+							end
+
+							bodyGyro.CFrame = cameraCF
+						end
+					end)
+				end
+			elseif state == false then
+				if LocalPlayer.Character then
+					clientConfig.Flying = false
+					local rootPart = LocalPlayer.Character:WaitForChild('HumanoidRootPart')
+
+					if rootPart:FindFirstChild('BodyGyro') then
+						rootPart.BodyGyro:Destroy()
+					end
+					if rootPart:FindFirstChild('BodyVelocity') then
+						rootPart.BodyVelocity:Destroy()
+					end
+
+					LocalPlayer.Character.Humanoid.PlatformStand = false
+				end
 			end
-		end,
-
-		ChangedCallback = function(New) end
+		end 
 	})
-
+	
 	local FlyspeedSlider = Tabs.Main:AddSlider("Slider", {
 		Title = "Flight Speed",
 		Description = "Set current fly speed",
@@ -1968,6 +2001,18 @@ do
 			Content = "You do not have permissions to use the beta tab, please consider boosting our discord server."
 		})
 	else
+		Tabs.Exclusive:AddInput("Input", {
+			Title = "Job Id",
+			Description = "Join server via jobId",
+			Default = "",
+			Placeholder = "JobId",
+			Numeric = false, -- Only allows numbers
+			Finished = true, -- Only calls callback when you press enter
+			Callback = function(Value)
+				game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, tostring(Value), LocalPlayer)
+			end
+		})
+		
 		Tabs.Exclusive:AddToggle("MyToggle", {
 			Title = "Lag Server", 
 			Description = "Toggle server lagger",

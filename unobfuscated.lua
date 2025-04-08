@@ -27,6 +27,24 @@ end
 local executorName = identifyexecutor() or "Unknown"
 local executorInfo = ""
 
+local HttpService = game:GetService("HttpService")
+
+local function fetchKey()
+    local success, keyData = pcall(function()
+        local response = game:HttpGet("https://raw.githubusercontent.com/JejcoTwiUmYQXhBpKMDl/deinemudda/refs/heads/main/key.json")
+        return HttpService:JSONDecode(response)
+    end)
+
+    if success and keyData and keyData.key then
+        return keyData.key
+    else
+        warn("Failed to fetch key data")
+        return nil
+    end
+end
+
+local akAdminKey = fetchKey()
+
 if executorName == "JJSploit x Xeno" then
 	executorInfo = "IP/HWID Spoofer Detected"
 elseif executorName == "JJSploit" then
@@ -625,7 +643,7 @@ do
 
 	Tabs.Universals:AddButton({
 		Title = "AK Admin",
-		Description = "Key: hBtaEFv8H0CGcpUbLas7",
+		Description = "Key: " .. akAdminKey,
 		Callback = function()
 			Window:Dialog({
 				Title = "Execution",

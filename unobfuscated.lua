@@ -1077,6 +1077,31 @@ do
 	})
 
 	Tabs.Universals:AddButton({
+		Title = "Larger Emotes GUI",
+		Description = "Execute Emotes GUI (Comma)",
+		Callback = function()
+			Window:Dialog({
+				Title = "Execution",
+				Content = "Would you like to inject emotes gui?",
+				Buttons = {
+					{
+						Title = "Confirm",
+						Callback = function()
+							loadstring(game:HttpGet("https://raw.githubusercontent.com/ZLens/robmain/refs/heads/main/biggeremotesgui.lua"))()
+						end
+					},
+					{
+						Title = "Cancel",
+						Callback = function() 
+
+						end
+					}
+				}
+			})
+		end
+	})
+
+	Tabs.Universals:AddButton({
 		Title = "Empty Tools",
 		Description = "Execute Empty Tools",
 		Callback = function()

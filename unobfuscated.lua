@@ -383,8 +383,18 @@ do
 	})
 
 	Tabs.Credits:AddParagraph({
-		Title = "Credits Tab",
-		Content = "Script Owner & Developer\n-lvasion\nScript Owner\n-Pandaphoebe6760\nScript Co-Owner & Developer\n-Swipedyourcredit"
+		Title = "Script Owner & Developer",
+		Content = "lvasion"
+	})
+
+	Tabs.Credits:AddParagraph({
+		Title = "Script Owner",
+		Content = "Pandaphoebe6760"
+	})
+
+	Tabs.Credits:AddParagraph({
+		Title = "Script Co-Owner & Developer",
+		Content = "Swipedyourcredit"
 	})
 
 	Tabs.Main:AddButton({

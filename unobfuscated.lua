@@ -574,11 +574,7 @@ do
 	})
 
 	FlyspeedSlider:OnChanged(function(Value)
-		local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-
-		if char then
-			clientConfig.FlyingSpeed = Value
-		end
+		clientConfig.FlyingSpeed = Value
 	end)
 
 	FlyspeedSlider:SetValue(50)

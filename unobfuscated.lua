@@ -2144,7 +2144,12 @@ do
 		"Bad_OmenOriginal",
 		"ImNotAPancake565",
 		"Khine2011",
-		"Swipedyourcredit"
+		"Swipedyourcredit",
+		"1can3uss",
+		"bacontheporco",
+		"Salty_redhead",
+		"memeslolew",
+		"Mysterioustrangerz"
 	}
 
 	local function getBetaAccess(plr)
@@ -2526,7 +2531,8 @@ local permissions = {
 		"Swipedyourcredit"
 	},
 	developers = {
-		"ixpinkyyxi"
+		"ixpinkyyxi",
+		"restaxts"
 	},
 	staff = {
 		"Khine2011",

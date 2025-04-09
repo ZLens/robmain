@@ -322,7 +322,6 @@ local function HumanoidPlayEmote(humanoid, name, id)
 end
 
 local function PlayEmote(name: string, id: IntValue)
-       ScreenGui.Enabled = false 
     SearchBar.Text = ""
     local Humanoid = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
     local Description = Humanoid and Humanoid:FindFirstChildOfClass("HumanoidDescription")
